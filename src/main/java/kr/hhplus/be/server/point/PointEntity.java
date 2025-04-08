@@ -18,6 +18,8 @@ public class PointEntity {
 
     long amount;
 
+    long pointTotal;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     TransactionType type;
