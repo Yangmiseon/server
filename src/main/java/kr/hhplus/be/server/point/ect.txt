@@ -74,3 +74,9 @@ Entity 클래스에서는 setter 메소드를 만들지 않도록 노력한다.
 
 setter 메소드가 아닌 생성자를 이용해서 초기화 하는 경우 불변 객체로 활용할 수 있고 불변 객체로 만들면 데이터를 전달하는 과정에서 변조되지 않음을 보장할 수 있다.
 출처: https://seungh1024.tistory.com/52 [학습 정리:티스토리]
+
+비즈니스 로직상 이 메서드가 실행되었는가?만 확인하는 테스트
+메서드가 호출되었는지	verify(mock).method(...)
+몇 번 호출되었는지	verify(mock, times(n))...
+특정 값으로 호출되었는지	eq(값)
+insert는 void 메서드일때는 when() 대신 doNothing()

@@ -32,9 +32,19 @@ public class PointService {
 
     //포인트 충전
     public PointEntity chargeUserPoint(String userId, long amount){
-        PointEntity curPoint = pointRepository.findByUserId(userId);
-        amount +=curPoint.getPointTotal();
-        pointHistoryRepository.insert(userId, amount, TransactionType.CHARGE, LocalDateTime.now());
-        return pointRepository.insertAndUpdate(userId, amount);
+        //현재 포인트 잔액조회
+        long curPoint = pointRepository.findByUserId(userId).getPointTotal();
+        //현재 포인트에 충전포인트 담기(최대값 확인하기)
+        final long MAXPOINT = 1_000_000L;
+        if(amount > MAXPOINT){
+            throw new IllegalArgumentException("충전 가능한 최대 포인트는 " + MAXPOINT + "입니다.");
+        }else{
+            amount += curPoint;
+            //히스토리 넣어주기
+            pointHistoryRepository.insert(userId, amount, TransactionType.CHARGE, LocalDateTime.now());
+            //포인트 업데이트하기
+            return pointRepository.insertAndUpdate(userId, amount);
+        }
+
     }
 }
