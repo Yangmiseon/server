@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import org.springframework.context.annotation.Import;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,7 @@ class ServerApplicationTests {
 	void testPointTotal() {
 		PointEntity fakePoint = new PointEntity();
 		fakePoint.setUserId("abc");
-		fakePoint.setPointTotal(1000);
+		fakePoint.setPointTotal(1000L);
 
 		when(pointService.getUserPoint("abc")).thenReturn(1000L);
 
@@ -62,6 +63,8 @@ class ServerApplicationTests {
 		assertEquals(TransactionType.CHARGE, result.get(0).getType());
 
 	}
+
+
 
 	@Test
 	void contextLoads() {

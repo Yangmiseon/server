@@ -1,7 +1,6 @@
 package kr.hhplus.be.server.point;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +13,20 @@ public class PointController {
     private PointService pointService;
 
     public PointController(PointService pointService) {
+
         this.pointService = pointService;
     }
 
-    @GetMapping("/{id}/pointTotal")
-    public long  getUserPoint(@PathVariable("id") String userId){
+    @GetMapping("/{userId}/pointTotal")
+    public long  getUserPoint(@PathVariable String userId){
         return pointService.getUserPoint(userId);
+    }
+
+    @PatchMapping("{userId}/charge")
+    public PointEntity charge(
+            @PathVariable String userId,
+            @RequestParam long amount
+    ) {
+        return pointService.chargeUserPoint(userId,amount);
     }
 }

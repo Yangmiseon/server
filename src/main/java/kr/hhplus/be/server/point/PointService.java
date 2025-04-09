@@ -1,7 +1,10 @@
 package kr.hhplus.be.server.point;
 
 import org.springframework.stereotype.Service;
+import kr.hhplus.be.server.point.PointEntity;
+import kr.hhplus.be.server.point.PointRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,5 +28,13 @@ public class PointService {
     //userId로 포인트 히스토리 조회
     public List<PointHistoryEntity> getUserPointHistory(String userId) {
         return pointHistoryRepository.findByUserId(userId);
+    }
+
+    //포인트 충전
+    public PointEntity chargeUserPoint(String userId, long amount){
+        PointEntity curPoint = pointRepository.findByUserId(userId);
+        amount +=curPoint.getPointTotal();
+        pointHistoryRepository.insert(userId, amount, TransactionType.CHARGE, LocalDateTime.now());
+        return pointRepository.insertAndUpdate(userId, amount);
     }
 }
